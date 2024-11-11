@@ -111,7 +111,8 @@ def main():
         "Loan-Document-Analyzer": "alert-info",
         "Medical-doc-analyzer": "alert-danger",
         "Ride-router" :"alert  btn-warning",
-        "test" :"alert  btn-success"
+        "Self-organization-maps" :"alert  btn-success",
+        "google-maps" :"alert  btn-info",
     }
     
 
