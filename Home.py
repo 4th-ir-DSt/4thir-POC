@@ -89,11 +89,11 @@ def create_navbar():
 
 def create_project_card(project_name, color_class, target="_parent"):
     return f"""
-   
-        <a href='{project_name}' class='card alert {color_class}' target='{target}' style='text-decoration: none; color: black;'>
+    <div class='card alert {color_class}' style='color: black'>
+        <a href='{project_name}' target='{target}' style='text-decoration: none; color: inherit;'>
             <h5 class='card-title'>{project_name}</h5>
         </a>
-    
+    </div>
     """
 
 def main():
