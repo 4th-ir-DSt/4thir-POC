@@ -113,6 +113,7 @@ def main():
         "Ride-router" :"alert  btn-warning",
         "Self-organization-maps" :"alert  btn-success",
         "google-maps" :"alert  btn-info",
+        "Accent-recognition" :"alert  btn-danger",
     }
     
 

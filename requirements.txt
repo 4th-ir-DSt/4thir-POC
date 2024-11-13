@@ -160,3 +160,10 @@ widgetsnbextension
 wrapt
 xyzservices
 yarl
+streamlit
+numpy
+whisper
+sounddevice
+wavio
+plotly
+python-dotenv
