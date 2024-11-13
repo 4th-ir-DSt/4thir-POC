@@ -114,6 +114,8 @@ def main():
         "Self-organization-maps" :"alert  btn-success",
         "google-maps" :"alert  btn-info",
         "Accent-recognition" :"alert  btn-danger",
+        "Land-repository":"alert alert-yellow"
+
     }
     
 
