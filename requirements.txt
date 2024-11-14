@@ -149,6 +149,7 @@ starlette==0.41.2
 streamlit==1.39.0
 streamlit_folium==0.23.1
 sympy==1.13.1
+shapely==2.0.6
 tabulate==0.8.10
 tenacity==8.3.0
 threadpoolctl==3.5.0
