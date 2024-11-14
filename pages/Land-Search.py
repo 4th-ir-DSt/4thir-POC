@@ -523,13 +523,13 @@ def filter_plots(plots_data: List[Dict], filters: Dict) -> List[str]:
 
 
 def main():
-    st.set_page_config(layout="wide", page_title="Land Registry Platform")
+    st.set_page_config(layout="wide", page_title="Land Search Platform")
 
     # Main header
     st.markdown(
         """
         <div style='text-align: center; margin-bottom: 20px;'>
-            <h1 style='color: #1f77b4;'>🗺️ Land Registry Platform</h1>
+            <h1 style='color: #1f77b4;'>🗺️ Land Search Platform</h1>
         </div>
     """,
         unsafe_allow_html=True,
@@ -726,8 +726,8 @@ def main():
         st.markdown(
             """
             <div style='text-align: center; padding: 50px;'>
-                <h2>Welcome to the Land Registry Platform</h2>
-                <p>Upload a JSON file containing land registry data to begin exploring plots.</p>
+                <h2>Welcome to the Land Search Platform</h2>
+                <p>Upload a JSON file containing land Search data to begin exploring plots.</p>
                 <p>Use the upload button in the sidebar to get started.</p>
             </div>
         """,

@@ -56,9 +56,11 @@ def load_css():
 
 
         .hero-section {
-            background: linear-gradient(to right, #0d6efd, #6610f2);
-            padding: 4rem 0;
-            width: 100%;
+            background: white;
+            text: white;
+            padding: 0rem 0;
+            width: 0%;
+            height:2px;
         }
         .feature-icon {
             width: 4rem;
@@ -144,6 +146,7 @@ def create_navbar():
                 <!--<p class="lead text-white">Exploring the future of AI through innovative applications</p>-->
             </div>
         </div>
+        
     <div id="projects">
     </div>
 
@@ -251,11 +254,6 @@ def main():
         "Accent-recognition": {
             "color": "alert btn-danger",
             "description": "A sophisticated model for recognizing and classifying accents in speech, designed to improve language processing applications, enhance customer service, and support regionalized voice-based interactions.",
-            "image": "https://www.4th-ir.com/favicon.ico",
-        },
-        "Land-repository": {
-            "color": "alert alert-yellow",
-            "description": "A centralized repository for land records, making it easier to manage, search, and verify land ownership and boundaries. Useful for government agencies, real estate firms, and land management organizations.",
             "image": "https://www.4th-ir.com/favicon.ico",
         },
         "Land-Search": {
