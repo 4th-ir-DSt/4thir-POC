@@ -150,6 +150,7 @@ streamlit
 streamlit_folium
 sympy
 shapely
+sounddevice
 tabulate
 tenacity
 threadpoolctl
