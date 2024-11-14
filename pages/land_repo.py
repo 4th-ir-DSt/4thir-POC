@@ -39,7 +39,7 @@ def create_detail_popup(plot_data: Dict) -> str:
     plot = plot_data["land_data"]
     owners_str = ", ".join([owner["name"] for owner in plot["owners"]])
     popup_content = f"""
-    <div style="font-family: Arial, sans-serif; padding: 15px; min-width: 300px;">
+    <div style="font-family: Arial, sans-serif; padding: 15px; padding-bottom:3px; min-width: 300px;">
         <div style="border-bottom: 2px solid #1f77b4; margin-bottom: 10px;">
             <h4 style="margin: 0; color: #1f77b4;">{plot['plot_id']}</h4>
         </div>
@@ -113,22 +113,22 @@ def create_map(plots_data: List[Dict], filtered_plots: List[str] = None):
 
     # Add draw control for segmentation
     draw_options = {
-        'position': 'topleft',
-        'draw_options': {
-            'polygon': True,
-            'rectangle': True,
-            'circle': True,
-            'marker': False,
-            'circlemarker': False,
-            'polyline': False
-        }
+        "position": "topleft",
+        "draw_options": {
+            "polygon": True,
+            "rectangle": True,
+            "circle": True,
+            "marker": False,
+            "circlemarker": False,
+            "polyline": False,
+        },
     }
     plugins.Draw(export=True, **draw_options).add_to(m)
 
-    # Add location clusters
+    # # Initialize marker cluster with custom count display
     marker_cluster = MarkerCluster().add_to(m)
 
-    # Add location markers with counts
+    # # Add markers for each plot location with styled count label
     for location, count in plot_locations.items():
         location_plots = [
             p for p in plots_to_show if p["land_data"]["location"] == location
@@ -139,13 +139,30 @@ def create_map(plots_data: List[Dict], filtered_plots: List[str] = None):
                 "gps_processed_data_summary"
             ]["point_list"][0]
 
-            folium.CircleMarker(
+            # Custom DivIcon for centered count label with improved styling
+            folium.Marker(
                 location=[first_point["latitude"], first_point["longitude"]],
-                radius=20,
+                icon=folium.DivIcon(
+                    html=f"""
+                        <div style="
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            width: 30px;
+                            height: 30px;
+                            border-radius: 50%;
+                            background-color: #1f77b4;
+                            color: white;
+                            font-size: 14px;
+                            font-weight: bold;
+                            border: 2px solid white;
+                            text-align: center;
+                        ">
+                            {count}
+                        </div>
+                    """
+                ),
                 popup=f"{location}: {count} plots",
-                color="#1f77b4",
-                fill=True,
-                fill_color="#1f77b4",
             ).add_to(marker_cluster)
 
     # Add plots to map with different colors based on type
@@ -169,7 +186,7 @@ def create_map(plots_data: List[Dict], filtered_plots: List[str] = None):
 
         # Create detailed popup
         popup_content = create_detail_popup(plot)
-        iframe = IFrame(html=popup_content, width=350, height=300)
+        iframe = IFrame(html=popup_content, width=350, height=230)
         popup = Popup(iframe, max_width=350)
 
         # Add polygon with styling
@@ -188,7 +205,7 @@ def create_map(plots_data: List[Dict], filtered_plots: List[str] = None):
         for i, point in enumerate(gps_points, 1):
             folium.CircleMarker(
                 location=[point["latitude"], point["longitude"]],
-                radius=4,
+                radius=2,
                 color=plot_color,
                 fill=True,
                 popup=f"Point {i}",
@@ -233,6 +250,57 @@ def search_and_filter_sidebar():
 
     st.sidebar.markdown("---")
 
+    # Multiple Coordinate search
+    with st.sidebar.expander("🎯 Coordinate Search", expanded=False):
+        coordinate_pairs = []
+        radius = st.slider("Search Radius (km)", 0.1, 10.0, 1.0, 0.1)
+
+        # Initialize session state for coordinate pairs
+        if "coordinate_pairs" not in st.session_state:
+            st.session_state.coordinate_pairs = [{"lat": "", "lon": ""}]
+
+        # Add coordinate pair button
+        if st.button("Add Another Coordinate Pair"):
+            st.session_state.coordinate_pairs.append({"lat": "", "lon": ""})
+
+        # Remove coordinate pair button
+        if len(st.session_state.coordinate_pairs) > 1 and st.button(
+            "Remove Last Coordinate Pair"
+        ):
+            st.session_state.coordinate_pairs.pop()
+
+        # Create input fields for each coordinate pair
+        for i, coord_pair in enumerate(st.session_state.coordinate_pairs):
+            st.markdown(f"**Coordinate Pair {i + 1}**")
+            col1, col2 = st.columns(2)
+            with col1:
+                lat = st.number_input(
+                    f"Latitude {i + 1}",
+                    min_value=-90.0,
+                    max_value=90.0,
+                    value=float(coord_pair["lat"]) if coord_pair["lat"] else 0.0,
+                    format="%.6f",
+                    key=f"lat_{i}",
+                )
+            with col2:
+                lon = st.number_input(
+                    f"Longitude {i + 1}",
+                    min_value=-180.0,
+                    max_value=180.0,
+                    value=float(coord_pair["lon"]) if coord_pair["lon"] else 0.0,
+                    format="%.6f",
+                    key=f"lon_{i}",
+                )
+
+            st.session_state.coordinate_pairs[i]["lat"] = lat
+            st.session_state.coordinate_pairs[i]["lon"] = lon
+
+            if lat != 0.0 or lon != 0.0:
+                coordinate_pairs.append((lat, lon))
+
+        if coordinate_pairs:
+            filters["coordinates"] = (coordinate_pairs, radius)
+
     # Advanced filters
     with st.sidebar.expander("📍 Location Filter", expanded=True):
         if "land_data" in st.session_state:
@@ -245,6 +313,12 @@ def search_and_filter_sidebar():
             selected_locations = st.multiselect("Select Locations", locations)
             if selected_locations:
                 filters["locations"] = selected_locations
+
+    # Overlap detection in separate expander
+    with st.sidebar.expander("🔍 Overlap Detection", expanded=False):
+        show_overlapping = st.checkbox("Show Overlapping Plots")
+        if show_overlapping:
+            filters["show_overlapping"] = True
 
     with st.sidebar.expander("🏢 Property Type", expanded=True):
         land_types = [
@@ -273,24 +347,104 @@ def search_and_filter_sidebar():
             )
             filters["size_range"] = size_range
 
-    with st.sidebar.expander("📅 Date Range", expanded=False):
-        if "land_data" in st.session_state:
-            dates = [
-                plot["land_data"]["date_of_instrument"]
-                for plot in st.session_state.land_data["plots"]
-            ]
-            min_date = min(pd.to_datetime(dates))
-            max_date = max(pd.to_datetime(dates))
-            date_range = st.date_input(
-                "Registration Date",
-                value=(min_date, max_date),
-                min_value=min_date,
-                max_value=max_date,
-            )
-            if len(date_range) == 2:
-                filters["date_range"] = date_range
-
     return filters
+
+
+def find_overlapping_plots(plots_data: List[Dict]) -> List[str]:
+    """Find all plots that overlap with any other plot"""
+    from shapely.geometry import Polygon
+
+    overlapping_ids = set()
+
+    try:
+        for i, plot1 in enumerate(plots_data):
+            # Convert plot1 coordinates to the correct format
+            coords1 = [
+                (
+                    point["longitude"],
+                    point["latitude"],
+                )  # Note: Shapely uses (lon, lat) order
+                for point in plot1["land_data"]["site_plan"][
+                    "gps_processed_data_summary"
+                ]["point_list"]
+            ]
+
+            # Skip if less than 3 points (not a valid polygon)
+            if len(coords1) < 3:
+                continue
+
+            try:
+                poly1 = Polygon(coords1)
+                if not poly1.is_valid:
+                    continue
+
+                for j, plot2 in enumerate(plots_data[i + 1 :], i + 1):
+                    coords2 = [
+                        (point["longitude"], point["latitude"])
+                        for point in plot2["land_data"]["site_plan"][
+                            "gps_processed_data_summary"
+                        ]["point_list"]
+                    ]
+
+                    if len(coords2) < 3:
+                        continue
+
+                    try:
+                        poly2 = Polygon(coords2)
+                        if not poly2.is_valid:
+                            continue
+
+                        if poly1.intersects(poly2):
+                            overlapping_ids.add(plot1["land_data"]["plot_id"])
+                            overlapping_ids.add(plot2["land_data"]["plot_id"])
+                    except Exception as e:
+                        st.error(
+                            f"Error processing plot {plot2['land_data']['plot_id']}: {str(e)}"
+                        )
+                        continue
+
+            except Exception as e:
+                st.error(
+                    f"Error processing plot {plot1['land_data']['plot_id']}: {str(e)}"
+                )
+                continue
+
+    except Exception as e:
+        st.error(f"Error in overlap detection: {str(e)}")
+
+    return list(overlapping_ids)
+
+
+def filter_by_coordinates(
+    plots_data: List[Dict], center_lat: float, center_lon: float, radius_km: float
+) -> List[str]:
+    """Filter plots within a certain radius of given coordinates"""
+    from math import radians, sin, cos, sqrt, atan2
+
+    def haversine_distance(lat1, lon1, lat2, lon2):
+        R = 6371  # Earth's radius in kilometers
+        lat1, lon1, lat2, lon2 = map(radians, [lat1, lon1, lat2, lon2])
+        dlat = lat2 - lat1
+        dlon = lon2 - lon1
+        a = sin(dlat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
+        c = 2 * atan2(sqrt(a), sqrt(1 - a))
+        return R * c
+
+    filtered_ids = []
+    for plot in plots_data:
+        # Check all points of the plot, not just the first one
+        plot_points = plot["land_data"]["site_plan"]["gps_processed_data_summary"][
+            "point_list"
+        ]
+        for point in plot_points:
+            distance = haversine_distance(
+                center_lat, center_lon, point["latitude"], point["longitude"]
+            )
+            if distance <= radius_km:
+                filtered_ids.append(plot["land_data"]["plot_id"])
+                break  # If any point is within radius, include the plot
+
+    return filtered_ids
 
 
 def filter_plots(plots_data: List[Dict], filters: Dict) -> List[str]:
@@ -332,6 +486,38 @@ def filter_plots(plots_data: List[Dict], filters: Dict) -> List[str]:
 
         if include_plot:
             filtered_plot_ids.append(plot_data["plot_id"])
+
+        # Coordinate filter with multiple pairs
+        if "coordinates" in filters and filtered_plot_ids:
+            coordinate_pairs, radius = filters["coordinates"]
+            coordinate_filtered_ids = set()
+
+            # Check each coordinate pair
+            for lat, lon in coordinate_pairs:
+                matching_ids = filter_by_coordinates(
+                    [
+                        p
+                        for p in plots_data
+                        if p["land_data"]["plot_id"] in filtered_plot_ids
+                    ],
+                    lat,
+                    lon,
+                    radius,
+                )
+                coordinate_filtered_ids.update(matching_ids)
+
+            filtered_plot_ids = list(coordinate_filtered_ids)
+
+        # Overlap filter
+        if "show_overlapping" in filters and filtered_plot_ids:
+            plots_to_check = [
+                p for p in plots_data if p["land_data"]["plot_id"] in filtered_plot_ids
+            ]
+            overlapping_ids = find_overlapping_plots(plots_to_check)
+            if overlapping_ids:  # Only filter if overlapping plots are found
+                filtered_plot_ids = [
+                    pid for pid in filtered_plot_ids if pid in overlapping_ids
+                ]
 
     return filtered_plot_ids
 
@@ -503,7 +689,7 @@ def main():
                 if st.button("🔄 Reset Filters"):
                     # Clear all filters
                     st.session_state.filters = {}
-                    st.experimental_rerun()
+                    st.rerun()
 
             with action_col2:
                 if st.button("📋 Copy Plot ID"):
@@ -548,6 +734,4 @@ def main():
             unsafe_allow_html=True,
         )
 
-
-if __name__ == "__main__":
-    main()
+main()
