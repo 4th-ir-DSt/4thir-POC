@@ -12,6 +12,51 @@ import branca.colormap as cm
 import numpy as np
 
 
+
+def load_css():
+    # External CSS dependencies
+    st.markdown(
+        """
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        """,
+        unsafe_allow_html=True
+    )
+
+    # Custom CSS to hide Streamlit components and adjust layout
+    st.markdown(
+        """
+        <style>
+            header {visibility: hidden;}
+            .main {
+                margin-top: -20px;
+                padding-top: 10px;
+            }
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            .navbar {
+                padding: 1rem;
+                margin-bottom: 2rem;
+            }
+            .card {
+                padding: 1rem;
+                margin-bottom: 1rem;
+                transition: transform 0.2s;
+                border-radius:5px;
+            }
+            .card:hover {
+                transform: scale(1.02);
+            }
+            .navbar-brand img {
+                margin-right: 10px;
+                height: 30px;
+            }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+
 def load_and_validate_json(uploaded_file) -> Dict:
     """Load and validate the uploaded JSON file"""
     try:
@@ -525,6 +570,8 @@ def filter_plots(plots_data: List[Dict], filters: Dict) -> List[str]:
 def main():
     st.set_page_config(layout="wide", page_title="Land Search Platform")
 
+    load_css()
+
     # Main header
     st.markdown(
         """
@@ -560,7 +607,7 @@ def main():
                 st_folium(m, width=None, height=750)
 
         with details_col:
-            st.markdown(f"### 📍 Showing {len(filtered_plot_ids)} plots")
+            st.markdown(f"### Showing {len(filtered_plot_ids)} plots")
 
             if filtered_plot_ids:
                 selected_plot_id = st.selectbox(

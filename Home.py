@@ -171,7 +171,7 @@ def create_navbar():
 #     )
 
 
-def create_project_card(project_name, details, target="_blank"):
+def create_project_card(project_name, details, target="_parent"):
     return f"""
     <div class="p-2" data-aos="fade-up" data-aos-delay="200">
         <div class="card project-card h-100 border-0 shadow-sm p-4">
@@ -236,21 +236,21 @@ def main():
             "description": "An AI solution that analyzes medical documents to identify key clinical information quickly, supporting healthcare professionals in providing timely and accurate patient care, while optimizing document handling.",
             "image": "https://www.4th-ir.com/favicon.ico",
         },
-        "Ride-router": {
+        "Ride-Router": {
             "color": "alert btn-warning",
             "description": "A route optimization platform for ride-sharing services, designed to ensure efficient route planning. It minimizes travel times, reduces fuel costs, and enhances customer satisfaction through optimized service delivery.",
             "image": "https://www.4th-ir.com/favicon.ico",
         },
-        "Self-organization-maps": {
-            "color": "alert btn-success",
-            "description": "A tool that uses self-organizing maps for clustering and visualization, useful in data mining applications. It provides insights into large datasets by organizing and grouping similar data, aiding in pattern recognition and data interpretation.",
-            "image": "https://www.4th-ir.com/favicon.ico",
-        },
-        "google-maps": {
-            "color": "alert btn-info",
-            "description": "An integrated Google Maps API solution, enhancing applications with powerful mapping features for route planning, location visualization, and geolocation services for a seamless user experience.",
-            "image": "https://www.4th-ir.com/favicon.ico",
-        },
+        # "Self-organization-maps": {
+        #     "color": "alert btn-success",
+        #     "description": "A tool that uses self-organizing maps for clustering and visualization, useful in data mining applications. It provides insights into large datasets by organizing and grouping similar data, aiding in pattern recognition and data interpretation.",
+        #     "image": "https://www.4th-ir.com/favicon.ico",
+        # },
+        # "google-maps": {
+        #     "color": "alert btn-info",
+        #     "description": "An integrated Google Maps API solution, enhancing applications with powerful mapping features for route planning, location visualization, and geolocation services for a seamless user experience.",
+        #     "image": "https://www.4th-ir.com/favicon.ico",
+        # },
         "Accent-recognition": {
             "color": "alert btn-danger",
             "description": "A sophisticated model for recognizing and classifying accents in speech, designed to improve language processing applications, enhance customer service, and support regionalized voice-based interactions.",
