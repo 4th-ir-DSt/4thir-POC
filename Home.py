@@ -171,7 +171,7 @@ def create_navbar():
 #     )
 
 
-def create_project_card(project_name, details, target="_self"):
+def create_project_card(project_name, details, target="_blank"):
     return f"""
     <div class="p-2" data-aos="fade-up" data-aos-delay="200">
         <div class="card project-card h-100 border-0 shadow-sm p-4">
