@@ -1125,7 +1125,7 @@ def main():
 
     # Main content area
     if st.session_state.staff_data is not None:
-        col1, col2, = st.columns([3, 1])
+        col1, col2, = st.columns([2, 1])
         
         with col1:
             if st.session_state.optimization_done:
