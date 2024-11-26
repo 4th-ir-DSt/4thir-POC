@@ -14,6 +14,8 @@ import googlemaps
 import polyline
 from folium.plugins import GroupedLayerControl
 
+st.set_page_config(layout="wide")
+
 # Part 1: SOM Clustering Class
 class SOMCluster:
     def __init__(self, input_len, grid_size=3, sigma=1.0, learning_rate=0.5):
@@ -941,6 +943,8 @@ def load_css():
         """,
         unsafe_allow_html=True,
     )
+
+    
     st.markdown(
         """
         <style>
@@ -1125,7 +1129,7 @@ def main():
 
     # Main content area
     if st.session_state.staff_data is not None:
-        col1, col2, = st.columns([2, 1])
+        col1, col2, = st.columns([3, 1])
         
         with col1:
             if st.session_state.optimization_done:
