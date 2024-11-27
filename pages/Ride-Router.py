@@ -1,5 +1,3 @@
-# staff_transport_router.py
-
 import streamlit as st
 import pandas as pd
 import folium
@@ -16,7 +14,6 @@ from folium.plugins import GroupedLayerControl
 
 st.set_page_config(layout="wide")
 
-# Part 1: SOM Clustering Class
 class SOMCluster:
     def __init__(self, input_len, grid_size=3, sigma=1.0, learning_rate=0.5):
         self.grid_size = grid_size
@@ -55,7 +52,6 @@ class SOMCluster:
         winner = self.find_winner(x)
         return winner[0] * self.grid_size + winner[1]
 
-# Part 2: Main Optimizer Class
 class StaffTransportOptimizer:
     def __init__(self, google_maps_key):
         self.office_location = {
