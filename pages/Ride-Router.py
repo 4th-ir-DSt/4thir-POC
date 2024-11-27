@@ -701,12 +701,12 @@ class StaffTransportOptimizer:
                 if 'distance' in key.lower():
                     formatted[key] = f"{value:.2f} km"
                 elif 'cost' in key.lower():
-                    formatted[key] = f"${value:.2f}"
+                    formatted[key] = f"GHC{value:.2f}"
                 elif 'average' in key.lower():
                     if 'distance' in key.lower():
                         formatted[key] = f"{value:.2f} km"
                     elif 'cost' in key.lower():
-                        formatted[key] = f"${value:.2f}"
+                        formatted[key] = f"GHC{value:.2f}"
                     else:
                         formatted[key] = f"{value:.2f}"
                 else:
@@ -1179,7 +1179,7 @@ def main():
                         with col1:
                             st.metric("Distance", f"{distance:.2f} km")
                         with col2:
-                            st.metric("Cost", f"${cost:.2f}")
+                            st.metric("Cost", f"GHC{cost:.2f}")
                         
                         st.dataframe(
                             pd.DataFrame(route)[['name', 'address', 'distance_to_office']],
@@ -1188,9 +1188,9 @@ def main():
                 
                 show_metrics_dashboard({
                     'Total Distance': f"{metrics['total_distance']:.2f} km",
-                    'Total Cost': f"${metrics['total_cost']:.2f}",
+                    'Total Cost': f"GHC{metrics['total_cost']:.2f}",
                     'Number of Routes': len(st.session_state.routes),
-                    'Average Cost/Route': f"${metrics['total_cost']/len(st.session_state.routes):.2f}"
+                    'Average Cost/Route': f"GHC{metrics['total_cost']/len(st.session_state.routes):.2f}"
                 })
 
 if __name__ == "__main__":
