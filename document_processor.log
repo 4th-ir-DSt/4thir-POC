@@ -1,0 +1,31 @@
+2024-12-02 10:50:52,453 - httpx - INFO - HTTP Request: GET https://ewwnktpvetlufmjehauf.supabase.co/rest/v1/LandSearch?select=%2A "HTTP/2 200 OK"
+2024-12-02 11:00:21,173 - httpx - INFO - HTTP Request: GET https://ewwnktpvetlufmjehauf.supabase.co/rest/v1/LandSearch?select=%2A "HTTP/2 200 OK"
+2024-12-02 11:00:51,656 - httpx - INFO - HTTP Request: GET https://ewwnktpvetlufmjehauf.supabase.co/rest/v1/LandSearch?select=%2A "HTTP/2 200 OK"
+2024-12-02 11:08:25,492 - modules.document_processing - INFO - Starting processing of /tmp/tmp3bd0vhyo.tmp
+2024-12-02 11:08:25,492 - modules.document_processing - INFO - Converting PDF to image: /tmp/tmp3bd0vhyo.tmp
+2024-12-02 11:08:25,495 - modules.document_processing - ERROR - PDF conversion failed: Unable to get page count. Is poppler installed and in PATH?
+2024-12-02 11:08:25,498 - backoff - ERROR - Giving up _convert_pdf_to_image(...) after 1 tries (pdf2image.exceptions.PDFInfoNotInstalledError: Unable to get page count. Is poppler installed and in PATH?)
+2024-12-02 11:08:25,498 - modules.document_processing - ERROR - Error processing document /tmp/tmp3bd0vhyo.tmp: Unable to get page count. Is poppler installed and in PATH?
+2024-12-02 11:08:25,499 - modules.document_processing - INFO - Starting processing of /tmp/tmprqvic0j4.tmp
+2024-12-02 11:08:25,555 - modules.document_processing - INFO - Image processing complete
+2024-12-02 11:08:25,555 - modules.document_processing - INFO - GEMINI Failed to Extract Site Plan Data: name 'os' is not defined
+2024-12-02 11:08:25,555 - modules.document_processing - ERROR - Processing attempt 1 failed: name 'os' is not defined
+2024-12-02 11:10:38,095 - modules.document_processing - INFO - Starting processing of /tmp/tmpvoz19m9n.tmp
+2024-12-02 11:10:38,096 - modules.document_processing - INFO - Converting PDF to image: /tmp/tmpvoz19m9n.tmp
+2024-12-02 11:10:38,098 - modules.document_processing - ERROR - PDF conversion failed: Unable to get page count. Is poppler installed and in PATH?
+2024-12-02 11:10:38,099 - backoff - ERROR - Giving up _convert_pdf_to_image(...) after 1 tries (pdf2image.exceptions.PDFInfoNotInstalledError: Unable to get page count. Is poppler installed and in PATH?)
+2024-12-02 11:10:38,099 - modules.document_processing - ERROR - Error processing document /tmp/tmpvoz19m9n.tmp: Unable to get page count. Is poppler installed and in PATH?
+2024-12-02 11:10:38,100 - modules.document_processing - INFO - Starting processing of /tmp/tmpr4ohstff.tmp
+2024-12-02 11:10:38,139 - modules.document_processing - INFO - Image processing complete
+2024-12-02 11:10:56,563 - modules.document_processing - ERROR - Failed to Process Site Data: could not convert string to float: "371.1'"
+2024-12-02 11:10:56,564 - modules.document_processing - INFO - Document processed successfully
+2024-12-02 11:19:22,038 - modules.document_processing - INFO - Starting processing of /tmp/tmp1c2btc3m.tmp
+2024-12-02 11:19:22,039 - modules.document_processing - INFO - Converting PDF to image: /tmp/tmp1c2btc3m.tmp
+2024-12-02 11:19:22,041 - modules.document_processing - ERROR - PDF conversion failed: Unable to get page count. Is poppler installed and in PATH?
+2024-12-02 11:19:22,042 - backoff - ERROR - Giving up _convert_pdf_to_image(...) after 1 tries (pdf2image.exceptions.PDFInfoNotInstalledError: Unable to get page count. Is poppler installed and in PATH?)
+2024-12-02 11:19:22,043 - modules.document_processing - ERROR - Error processing document /tmp/tmp1c2btc3m.tmp: Unable to get page count. Is poppler installed and in PATH?
+2024-12-02 11:19:22,043 - modules.document_processing - INFO - Starting processing of /tmp/tmplllkrt0v.tmp
+2024-12-02 11:19:22,082 - modules.document_processing - INFO - Image processing complete
+2024-12-02 11:19:40,310 - modules.document_processing - ERROR - Failed to Process Site Data: could not convert string to float: "371.1'"
+2024-12-02 11:19:40,311 - modules.document_processing - INFO - Document processed successfully
+2024-12-02 13:01:41,574 - httpx - INFO - HTTP Request: GET https://ewwnktpvetlufmjehauf.supabase.co/rest/v1/LandSearch?select=%2A "HTTP/2 200 OK"
