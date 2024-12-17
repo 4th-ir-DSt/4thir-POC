@@ -851,7 +851,7 @@ def create_map(self, routes):
             ).add_to(office_group)
             office_group.add_to(m)
             
-            colors = ['blue', 'green', 'purple', 'orange', 'darkred', 'lightred', 'beige', 'darkblue', 'darkgreen', 'cadetblue']
+            colors = ['blue', 'green', 'purple', 'orange', 'darkred', 'lightred', 'beige', 'darkblue', 'violet', 'pink','aqua','yellow']
             
             for route_idx, (route_name, group) in enumerate(routes.items()):
                 color = colors[route_idx % len(colors)]
