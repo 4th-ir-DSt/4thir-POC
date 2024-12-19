@@ -68,18 +68,4 @@ def detect_age(image):
     
     return age
 
-@app.post("/detect-age/")
-async def detect_age_from_image(file: UploadFile = File(...)):
-    # Read and convert the uploaded image
-    contents = await file.read()
-    image = Image.open(io.BytesIO(contents))
-    image_array = np.array(image)
-    
-    # Detect age
-    age = detect_age(image_array)
-    
-    if age is None:
-        return {"error": "No face detected in the image"}
-    
-    return {"age": age}
 

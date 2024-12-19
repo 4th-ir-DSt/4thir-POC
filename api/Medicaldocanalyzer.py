@@ -112,36 +112,6 @@ def process_template(extracted_text: str) -> str:
             detail=f"Error generating template analysis: {str(e)}"
         )
 
-@app.post("/api/analyze-medical-documents/", response_model=AnalysisResponse)
-async def analyze_medical_documents(files: List[UploadFile] = File(...)):
-    """
-    Endpoint to analyze medical documents and generate analysis.
-    
-    Parameters:
-    - files: List of PDF files containing medical documents
-    
-    Returns:
-    - JSON object containing the summary, template analysis, and number of processed documents
-    """
-    if not files:
-        raise HTTPException(status_code=400, detail="No files provided")
-        
-    for file in files:
-        if not file.filename.lower().endswith('.pdf'):
-            raise HTTPException(status_code=400, detail="Only PDF files are supported")
-    
-    # Extract text from PDFs
-    extracted_text = extract_text_from_pdfs(files)
-    
-    # Generate summary and template analysis
-    summary = process_summary(extracted_text)
-    template_analysis = process_template(extracted_text)
-    
-    return AnalysisResponse(
-        summary=summary,
-        template_analysis=template_analysis,
-        document_count=len(files)
-    )
 
 @app.get("/api/health")
 async def health_check():
