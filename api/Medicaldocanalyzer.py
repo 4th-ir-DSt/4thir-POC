@@ -4,7 +4,7 @@ from typing import List
 import fitz
 import os
 from dotenv import load_dotenv
-from langchain.llms import OpenAI
+from langchain_community.llms import OpenAI
 from langchain.chains import LLMChain
 from langchain.prompts import PromptTemplate
 from pydantic import BaseModel
