@@ -68,34 +68,24 @@ async def process_file(file: UploadFile = File(...)):
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-@app.post("/api/analyze-loan-documents/", response_model=LoanSummaryResponse)
+@app.post("/api/loan-summary", response_model=LoanSummaryResponse)
 async def analyze_loan_documents(files: List[UploadFile] = File(...)):
-    """
-    Endpoint to analyze loan documents and generate a summary.
-    
-    Parameters:
-    - files: List of PDF files containing loan documents
-    
-    Returns:
-    - JSON object containing the summary and number of processed documents
-    """
-    if not files:
-        raise HTTPException(status_code=400, detail="No files provided")
+    """Endpoint to process loan application documents and return a structured summary."""
+    try:
+        # Extract text from uploaded PDFs
+        extracted_text = extract_text_from_pdfs(files)
         
-    for file in files:
-        if not file.filename.lower().endswith('.pdf'):
-            raise HTTPException(status_code=400, detail="Only PDF files are supported")
-    
-    # Extract text from PDFs
-    extracted_text = extract_text_from_pdfs(files)
-    
-    # Generate loan summary
-    loan_summary = generate_loan_summary(extracted_text)
-    
-    return LoanSummaryResponse(
-        summary=loan_summary,
-        document_count=len(files)
-    )
+        # Generate loan summary based on extracted text
+        loan_summary = generate_loan_summary(extracted_text)
+        
+        # Return the summary and document count in the response
+        return LoanSummaryResponse(
+            summary=loan_summary,
+            document_count=len(files)
+        )
+        
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Error processing loan documents: {str(e)}")
 @app.post("/api/analyze-medical-documents/", response_model=AnalysisResponse)
 async def analyze_medical_documents(files: List[UploadFile] = File(...)):
     """

@@ -133,7 +133,24 @@ CRITICAL INSTRUCTIONS:
 
     return get_completion(prompt)
 
-
+@app.post("/api/loan-summary", response_model=LoanSummaryResponse)
+async def analyze_loan_documents(files: List[UploadFile] = File(...)):
+    """Endpoint to process loan application documents and return a structured summary."""
+    try:
+        # Extract text from uploaded PDFs
+        extracted_text = extract_text_from_pdfs(files)
+        
+        # Generate loan summary based on extracted text
+        loan_summary = generate_loan_summary(extracted_text)
+        
+        # Return the summary and document count in the response
+        return LoanSummaryResponse(
+            summary=loan_summary,
+            document_count=len(files)
+        )
+        
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Error processing loan documents: {str(e)}")
 
 @app.get("/api/health")
 async def health_check():
